@@ -1,0 +1,18 @@
+            - name: Locust Load Test
+  # You may pin to the exact commit or the version.
+  # uses: apardo04/locust-github-action@19c86f73c07e0bb790cfba2041abd081e5665a91
+  uses: apardo04/locust-github-action@1.1.0
+  with:
+    # The locustfile you want to use to load test. If no file is provided, a simple load test will be done on the landing page of the provided URL.
+    LOCUSTFILE: locustfile.py
+    # requirements.txt file you want to use to install 3rd party dependencies. Not required.
+    REQUIREMENTS: # optional
+    # URL to the site you want to load test. This is Required!
+    URL: https://stormerfives.github.io/index.html
+    # Number of Users to spawn. Defaults to 5.
+    USERS: 50
+    # Specify the hatch rate (number of users to spawn per second). Defaults to 5.
+    RATE: 5
+    # Specify the run time for a test. Defaults to 10 seconds.
+    RUNTIME: 2m
+          
