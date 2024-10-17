@@ -1,4 +1,4 @@
-            - name: Locust Load Test
+name: Locust Load Test
   # You may pin to the exact commit or the version.
   # uses: apardo04/locust-github-action@19c86f73c07e0bb790cfba2041abd081e5665a91
   uses: apardo04/locust-github-action@1.1.0
