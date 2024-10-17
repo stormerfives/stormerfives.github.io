@@ -1,6 +1,5 @@
 name: Locust Load Test
   # You may pin to the exact commit or the version.
-  # uses: apardo04/locust-github-action@19c86f73c07e0bb790cfba2041abd081e5665a91
   uses: apardo04/locust-github-action@1.1.0
   with:
     # The locustfile you want to use to load test. If no file is provided, a simple load test will be done on the landing page of the provided URL.
