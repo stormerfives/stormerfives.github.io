@@ -28,7 +28,7 @@ jobs:
           mkdir -p test_results
           locust -f locustfile.py --headless -u 10 -r 1 --run-time 1m --csv=test_results/load_test_results
         env:
-          TARGET_HOST: https://yourwebsite.com  # replace with your target URL
+          TARGET_HOST: https://stormerfives.github.io/index.html
 
       - name: Convert CSV to TXT
         run: |
