@@ -1,17 +1,39 @@
-name: Locust Load Test
-  # You may pin to the exact commit or the version.
-  uses: apardo04/locust-github-action@1.1.0
-  with:
-    # The locustfile you want to use to load test. If no file is provided, a simple load test will be done on the landing page of the provided URL.
-    LOCUSTFILE: locustfile.py
-    # requirements.txt file you want to use to install 3rd party dependencies. Not required.
-    REQUIREMENTS: # optional
-    # URL to the site you want to load test. This is Required!
-    URL: https://stormerfives.github.io/index.html
-    # Number of Users to spawn. Defaults to 5.
-    USERS: 50
-    # Specify the hatch rate (number of users to spawn per second). Defaults to 5.
-    RATE: 5
-    # Specify the run time for a test. Defaults to 10 seconds.
-    RUNTIME: 2m
-          
+name: Load Test with Locust
+
+on:
+  push:
+    branches:
+      - main  # or any branch you want to run the test on
+
+jobs:
+  load-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: Install Locust
+        run: |
+          python -m pip install --upgrade pip
+          pip install locust
+
+      - name: Run Locust Load Test
+        run: |
+          mkdir -p test_results
+          locust -f locustfile.py --headless -u 10 -r 1 --run-time 1m --csv=test_results/load_test_results
+        env:
+          TARGET_HOST: https://yourwebsite.com  # replace with your target URL
+
+      - name: Convert CSV to TXT
+        run: |
+          # Convert the CSV file to a readable TXT format
+          awk -F"," '{print $0}' test_results/load_test_results_stats.csv > test_results/load_test_results.txt
+          echo "Load test results saved to load_test_results.txt"
+        continue-on-error: true
+
