@@ -1,5 +1,9 @@
-rom locust import HttpUser, task, between
+from locust import HttpUser, task, between
 
 class QuickstartUser(HttpUser):
-    # Wait between 7 and 15 seconds per request per user
-    wait_time = between(7, 15)
+    wait_time = between(1, 5)
+
+    @task
+    def hello_world(self):
+        self.client.get("/hello")
+        self.client.get("/world")
