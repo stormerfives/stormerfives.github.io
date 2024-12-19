@@ -8,4 +8,4 @@ class QuickstartUser(HttpUser):
     def load_test(self):
         # Request / on your Host
         # self.client.get("/")
-        self.client.get("/stormerfives.github.io")
+        self.client.get("/")
