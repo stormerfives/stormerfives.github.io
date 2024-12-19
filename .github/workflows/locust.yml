@@ -3,7 +3,8 @@ name: Load Test with Locust
 on:
   push:
     branches:
-      - main  # or any branch you want to run the test on
+      - main  # Adjust this to the branches you want to trigger the workflow on
+  pull_request:
 
 jobs:
   load-test:
@@ -16,17 +17,15 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8'
+          python-version: '3.9'  # Specify the Python version you need
 
-      - name: Install Locust
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install locust
 
-      - name: Run Locust Load Test
+      - name: Run Locust load test
         run: |
-          locust -f locustfile.py --headless -u 10 -r 1 --run-time 1m --csv=test_results/load_test_results
-        env:
-          TARGET_HOST: https://stormerfives.github.io/index.html
+          locust -f locustfile.py --headless -u 10 -r 1 -t 1m
 
 
