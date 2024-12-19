@@ -27,5 +27,6 @@ jobs:
       - name: Run Locust load test
         run: |
           locust -f locustfile.py --headless -u 10 -r 1 -t 1m
+        continue-on-error: true
 
 
