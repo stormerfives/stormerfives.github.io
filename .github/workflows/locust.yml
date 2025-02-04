@@ -26,7 +26,7 @@ jobs:
 
       - name: Run Locust load test
         run: |
-          locust -f locustfile.py --headless -u 10 -r 1 -t 1m
+          locust -f LocustFiles/locustfile_1.py --headless -u 10 -r 1 -t 1m
         env:
           LOCUST_HOST: https://stormerfives.github.io  # Set your base URL here
         continue-on-error: true
