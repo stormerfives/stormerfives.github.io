@@ -1,86 +1,79 @@
-<htlml>
+<!DOCTYPE html>
+<html>
+    <!-- Head section holds info for the browser. -->
     <head>
-        <title>Test Website</title>
-        <style>
+		<!-- Our page's title and custom styling file. -->
+		<title>Sample Page</title>
+        <link rel="stylesheet" href="index.css" type="text/css">
+        
+        <!-- Info for the browser to decode our HTML code. -->
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-            body {
-                border-style: none;
-                background-color: black;
-                border: 0px;
-                margin: 0px;
-            }
-
-            div#header {
-                width: 100%;
-                height: 10%;
-                background-color: #eaf1f7;
-                overflow: hidden;
-                position: fixed;
-                float: none;
-                z-index: 1;
-            }
-
-            img#headerImage {
-                padding: 0.5em;
-                padding-left: 1em;
-                position: inherit;
-                width: 275px;
-                height: 75px;
-            }
-
-            button.headerButton {
-                width: 10%;
-                height: 100%;
-                padding-top: 0em;
-                background-color: transparent;
-                color: black;
-                border: none;
-                border-bottom: black 1px;
-                float: right;
-            }
-            
-            button:hover {
-                background-color: #cdd6dd;
-                border-bottom: black 5px;
-                transition: .5s;
-            }
-
-            video#homeVideo {
-                margin-top: 10%;
-                width: 100%;
-                height: 1080px;
-                z-index: -1;
-            }
-
-            div#contentSection {
-                width: 100%;
-                height: 2000px;
-                background-color: #cdd6dd;
-            }
-
-        </style>
+		<!-- Bootstrap files -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     </head>
+    <!-- Body holds the content of the page. -->
+   <body>
+    <!-- Navbar -->
+    <!-- This builds a blank navbar with some styling, such as a light color. -->
+    <nav class="navbar navbar-expand-md navbar-light bg-light justify-content-center">
+        <!-- This is the "brand" that goes all the way to the left. -->
+        <a class="navbar-brand d-flex w-50 mr-auto" href="#home">Your page's name!</a>
 
-    <body>
-        <div id="header">
-            <img src="images/logo.png" id="headerImage"/>
-             <!--Buttons are in REVERSE ORDER due to float layout-->
-            <button class="headerButton" id="homeButton">Contact</button>
-            <button class="headerButton" id="articlesButton">About</button>
-            <button class="headerButton" id="aboutButton">Science</button>
-            <button class="headerButton" id="contactButton">Home</button>
+        <!-- This button replaces the links list when in mobile. -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar links -->
+        <div class="collapse navbar-collapse" id="nav">
+            <!-- Create an unordered list to hold our links and format it automatically. -->
+            <ul class="nav navbar-nav mr-auto justify-content-end">
+                <!-- All the links in the navbar will be listed below as list items using the <li> tag. -->
+                <li class="nav-item">
+                    <!-- To make them into links, we use the <a href="link"> tag. -->
+                    <!-- The class="nav-link" part just makes them display nicely. -->
+                    <a class="nav-link" href="#about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#photography">Photography</a>
+                </li>
+            </ul>
         </div>
-        <div id="body">
-            <div id="videoBox">
-                <video auto mute loop id="homeVideo">
-                    <source src="images/testingVideo.mp4" type="video/mp4" poster="images/homePoster.png"/>
-                </video>
-            </div>
-            <div id="contentSection">
-                <div>
+    </nav>
+    <!-- Page container -->
+    <div class="container-fluid">
+        
+        <!-- Main column where content goes -->
+        <div class="col">
 
+            <!-- About section -->
+                   <!-- About section -->
+            <div class="row" id="about">
+
+                <div class="col-3">
+                    
                 </div>
+
+                <div class="col-9">
+                    
+                </div>
+
             </div>
+
+
+            <!-- Photography section -->
+            <div class="row">
+
+            </div>
+
         </div>
-    </body>
+    </div>
+
+</body>
 </html>
