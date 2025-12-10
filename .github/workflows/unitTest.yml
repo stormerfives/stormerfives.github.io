@@ -124,5 +124,10 @@ jobs:
           path: cypress/screenshots
           if-no-files-found: warn
 
+      
       - name: Print selected environment (for visibility)
-        run: echo "Environment: ${{ github.event.inputs.environment || 'staging' }}"
+        shell: bash
+        run: |
+          ENVIRONMENT="${{ github.event.inputs.environment }}"
+          if [ -z "$ENVIRONMENT" ]; then ENVIRONMENT="staging"; fi
+
