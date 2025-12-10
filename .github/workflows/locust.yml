@@ -3,8 +3,17 @@ name: Load Test with Locust
 on:
   push:
     branches:
-      - main  # Adjust this to the branches you want to trigger the workflow on
-  pull_request:
+      - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'staging'
+      run-tests:
+        description: 'Run unit tests?'
+        required: false
+        default: 'true'
 
 jobs:
   load-test:
