@@ -1,0 +1,128 @@
+
+name: Athena Unit Test
+
+on:
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'staging'
+      run-tests:
+        description: 'Run unit tests?'
+        required: false
+        default: 'true'
+
+jobs:
+  cypress-tests:
+    runs-on: ubuntu-latest
+    continue-on-error: false
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x' # or 22.x if you prefer
+
+      - name: Cache npm (optional)
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            npm-${{ runner.os }}-
+
+      - name: Generate minimal Cypress setup
+        run: |
+          # Create package.json
+          cat > package.json << 'EOF'
+          {
+            "name": "athena-web",
+            "version": "1.0.0",
+            "private": true,
+            "scripts": {
+              "serve": "http-server -c-1 -p 8080 .",
+              "cy:run": "cypress run"
+            },
+            "devDependencies": {
+              "cypress": "^13.7.0",
+              "http-server": "^14.1.1"
+            }
+          }
+          EOF
+
+          # Create Cypress config
+          cat > cypress.config.js << 'EOF'
+          const { defineConfig } = require('cypress');
+          module.exports = defineConfig({
+            e2e: {
+              baseUrl: 'http://localhost:8080',
+              supportFile: false
+            },
+            video: true,
+            screenshotsFolder: 'cypress/screenshots',
+            videosFolder: 'cypress/videos',
+            reporter: 'spec'
+          });
+          EOF
+
+          # Create example test (adjust text/selectors to your page)
+          mkdir -p cypress/e2e
+          cat > cypress/e2e/index.cy.js << 'EOF'
+          describe('Index page basic checks', () => {
+            it('loads and shows a main heading', () => {
+              cy.visit('/index.html'); // change path if index.html lives elsewhere
+              cy.get('h1').should('be.visible');        // require an <h1>
+              cy.contains(/Athena/i).should('exist');    // adjust to real text on your page
+            });
+
+            // Example: check links exist in nav (delete if no <nav>)
+            it('has a visible nav', () => {
+              cy.visit('/index.html');
+              cy.get('nav').should('exist').and('be.visible');
+            });
+          });
+          EOF
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Decide whether to run tests
+        id: test_gate
+        run: |
+          echo "run_tests_input=${{ github.event.inputs.run-tests }}" >> $GITHUB_OUTPUT
+          echo "is_pr=${{ github.event_name == 'pull_request' }}" >> $GITHUB_OUTPUT
+
+      - name: Run Cypress tests (serve + headless run)
+        if: ${{ steps.test_gate.outputs.is_pr == 'true' || steps.test_gate.outputs.run_tests_input == 'true' }}
+        uses: cypress-io/github-action@v6
+        with:
+          start: npm run serve
+          wait-on: 'http://localhost:8080/index.html'
+          browser: chrome
+          headed: false
+          config: screenshotsFolder=cypress/screenshots,videosFolder=cypress/videos
+
+      - name: Upload Cypress videos
+        uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: CypressVideos
+          path: cypress/videos
+          if-no-files-found: warn
+
+      - name: Upload Cypress screenshots
+        uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: CypressScreenshots
+          path: cypress/screenshots
+          if-no-files-found: warn
+
+      - name: Print selected environment (for visibility)
+        run: echo "Environment: ${{ github.event.inputs.environment || 'staging' }}"
